@@ -22,7 +22,7 @@ func main() {
 	currencyHandler := handlers.NewCurrencyHandler(db)
 
 	r.POST("/currency/add", currencyHandler.AddCurrency)
-	r.POST("/currency/remove", currencyHandler.RemoveCurrency)
+	r.DELETE("/currency/remove", currencyHandler.RemoveCurrency)
 	r.POST("/currency/price", currencyHandler.GetCurrencyPrice)
 	r.GET("/currency/all", currencyHandler.GetAllCurrencies)
 	r.GET("/currency/prices", currencyHandler.GetAllPrices)

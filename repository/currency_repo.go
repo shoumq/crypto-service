@@ -20,7 +20,12 @@ func (r *CurrencyRepo) AddCurrency(coin string) error {
 }
 
 func (r *CurrencyRepo) RemoveCurrency(coin string) error {
-	_, err := r.db.Exec("DELETE FROM currencies WHERE coin = $1", coin)
+	_, err := r.db.Exec("DELETE FROM prices WHERE coin_id = (SELECT id FROM currencies WHERE coin = $1)", coin)
+	if err != nil {
+		return err
+	}
+
+	_, err = r.db.Exec("DELETE FROM currencies WHERE coin = $1", coin)
 	return err
 }
 
