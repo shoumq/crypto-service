@@ -1,0 +1,160 @@
+definitions:
+  models.AddCurrencyRequest:
+    properties:
+      coin:
+        type: string
+    type: object
+  models.Currency:
+    properties:
+      coin:
+        type: string
+      id:
+        type: integer
+    type: object
+  models.CurrencyPrice:
+    properties:
+      coin_id:
+        type: integer
+      price:
+        type: number
+      timestamp:
+        type: string
+    type: object
+  models.GetCurrencyPriceRequest:
+    properties:
+      coin:
+        type: string
+      timestamp:
+        type: integer
+    type: object
+  models.RemoveCurrencyRequest:
+    properties:
+      coin:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /currency/add:
+    post:
+      consumes:
+      - application/json
+      description: Add a new currency to the watchlist
+      parameters:
+      - description: Currency to add
+        in: body
+        name: coin
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddCurrencyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AddCurrencyRequest'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Add a new currency to the watchlist
+  /currency/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all currencies in the watchlist
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Currency'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get all currencies in the watchlist
+  /currency/price:
+    post:
+      consumes:
+      - application/json
+      description: Get the price of a currency at a specific timestamp
+      parameters:
+      - description: Currency and timestamp
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.GetCurrencyPriceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CurrencyPrice'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get the price of a currency at a specific timestamp
+  /currency/prices:
+    get:
+      consumes:
+      - application/json
+      description: Get all prices
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CurrencyPrice'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get all prices
+  /currency/remove:
+    post:
+      consumes:
+      - application/json
+      description: Remove a currency from the watchlist
+      parameters:
+      - description: Currency to remove
+        in: body
+        name: coin
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveCurrencyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RemoveCurrencyRequest'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Remove a currency from the watchlist
+swagger: "2.0"
